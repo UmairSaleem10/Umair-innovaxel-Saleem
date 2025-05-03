@@ -91,3 +91,19 @@ exports.updateUrl = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+// for delete url
+exports.deleteUrl = async (req, res) => {
+  try {
+    const url = await Url.findOneAndDelete({ shortCode: req.params.shortCode });
+    
+    if (!url) {
+      return res.status(404).json({ error: 'URL not found' });
+    }
+    
+    res.json({ message: 'URL deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
