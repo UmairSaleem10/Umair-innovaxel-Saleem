@@ -65,3 +65,29 @@ exports.getUrlDetails = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+// for update url
+exports.updateUrl = async (req, res) => {
+  try {
+    const { url: newUrl } = req.body;
+    
+    if (!newUrl || !validator.isURL(newUrl)) {
+      return res.status(400).json({ error: 'Invalid URL' });
+    }
+
+    const url = await Url.findOneAndUpdate(
+      { shortCode: req.params.shortCode },
+      { originalUrl: newUrl },
+      { new: true }
+    );
+    
+    if (!url) {
+      return res.status(404).json({ error: 'URL not found' });
+    }
+    
+    res.json(url);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
