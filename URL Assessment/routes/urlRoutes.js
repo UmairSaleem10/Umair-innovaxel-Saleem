@@ -5,7 +5,7 @@ const {
   redirectUrl,
   getUrlDetails,
   updateUrl,
-
+  deleteUrl
 } = require('../controllers/urlController');
 
 router.get('/', async (req, res) => {
@@ -21,6 +21,6 @@ router.post('/shorten', createShortUrl);
 router.get('/:shortCode', redirectUrl);
 router.get('/:shortCode/details', getUrlDetails);
 router.put('/:shortCode', updateUrl);
-
+router.delete('/:shortCode', deleteUrl);
 
 module.exports = router;
