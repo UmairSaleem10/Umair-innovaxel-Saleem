@@ -30,3 +30,22 @@ exports.createShortUrl = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+// for get url 
+exports.redirectUrl = async (req, res) => {
+  try {
+    const url = await Url.findOne({ shortCode: req.params.shortCode });
+    
+    if (!url) {
+      return res.status(404).json({ error: 'URL not found' });
+    }
+
+    url.accessCount += 1;
+    await url.save();
+    
+    res.redirect(url.originalUrl.includes('://') ? url.originalUrl : `http://${url.originalUrl}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
