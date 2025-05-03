@@ -3,7 +3,7 @@ const router = express.Router();
 const {
   createShortUrl,
   redirectUrl,
-
+  getUrlDetails,
 
 } = require('../controllers/urlController');
 
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 
 router.post('/shorten', createShortUrl);
 router.get('/:shortCode', redirectUrl);
-
+router.get('/:shortCode/details', getUrlDetails);
 
 
 module.exports = router;
