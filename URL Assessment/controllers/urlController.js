@@ -49,3 +49,19 @@ exports.redirectUrl = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+// for get details like to check access count 
+exports.getUrlDetails = async (req, res) => {
+  try {
+    const url = await Url.findOne({ shortCode: req.params.shortCode });
+    
+    if (!url) {
+      return res.status(404).json({ error: 'URL not found' });
+    }
+    
+    res.json(url);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
